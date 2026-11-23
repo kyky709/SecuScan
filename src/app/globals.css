@@ -1,0 +1,38 @@
+/*
+ * Feuille de style globale de SecuScan (Tailwind CSS 4).
+ *
+ * Presque toute la mise en forme passe par les classes Tailwind écrites dans les composants. Ce
+ * fichier ne contient que ce qui s'applique à toute la page : polices, thème clair/sombre des
+ * éléments natifs et style du focus clavier. Il est compilé en un fichier CSS externe, autorisé
+ * par la Content-Security-Policy (`style-src 'self'`), contrairement aux attributs `style`.
+ */
+@import "tailwindcss";
+
+/* Polices Geist et Geist Mono, hébergées par le site lui-même via next/font (voir layout.tsx). */
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  /*
+   * Le site suit le thème du système (prefers-color-scheme) : `color-scheme` adapte aussi les
+   * éléments natifs du navigateur (barres de défilement, champs de formulaire) au thème sombre.
+   */
+  :root {
+    color-scheme: light dark;
+  }
+
+  /*
+   * Focus clavier toujours visible (WCAG 2.4.7) : un contour net autour de l'élément actif.
+   * `:focus-visible` ne s'applique qu'à la navigation au clavier, pas aux clics de souris.
+   */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-indigo-600 dark:outline-indigo-400;
+  }
+
+  /* Les résumés dépliables (<summary>) se comportent comme des boutons. */
+  summary {
+    cursor: pointer;
+  }
+}
