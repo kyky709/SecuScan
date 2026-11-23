@@ -1,0 +1,21 @@
+name: Proposer une amélioration
+description: Un nouveau contrôle, une meilleure explication, une amélioration de l'interface…
+labels: [amélioration]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Besoin
+      description: Quel problème cette amélioration résout-elle ?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposition
+      description: Comment l'implémenter ? Pour un nouveau contrôle, préciser la grille de notation envisagée.
+  - type: textarea
+    id: references
+    attributes:
+      label: Références
+      description: Sources qui justifient la proposition (OWASP, MDN, RFC…).

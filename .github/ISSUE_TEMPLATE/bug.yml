@@ -1,0 +1,34 @@
+name: Signaler un bogue
+description: Un comportement inattendu de SecuScan (résultat faux, erreur, affichage).
+labels: [bogue]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de prendre le temps de signaler un problème.
+        **Une faille de sécurité ?** Ne l'ouvrez pas ici : suivez [SECURITY.md](../../SECURITY.md).
+  - type: input
+    id: site
+    attributes:
+      label: Site analysé
+      description: L'adresse saisie (si le problème concerne une analyse).
+      placeholder: exemple.fr
+  - type: textarea
+    id: observed
+    attributes:
+      label: Ce qui s'est passé
+      description: Le résultat obtenu (capture d'écran ou extrait du JSON exporté bienvenus).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Ce qui était attendu
+      description: Et, si possible, la source qui le justifie (spécification, OWASP, MDN…).
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Navigateur et système
+      placeholder: Firefox 150, macOS

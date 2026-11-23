@@ -1,0 +1,18 @@
+# Mises à jour automatiques : Dependabot ouvre chaque semaine des pull requests pour les
+# dépendances npm et les GitHub Actions. La CI vérifie chaque mise à jour avant fusion.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      outils-de-developpement:
+        dependency-type: development
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
