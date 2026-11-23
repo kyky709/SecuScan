@@ -1,0 +1,58 @@
+# Intégration continue : à chaque push sur main et à chaque pull request, on vérifie que le projet
+# compile, respecte le style, passe les tests (avec couverture) et se construit comme sur Vercel.
+# Les actions sont épinglées par SHA de commit (et non par étiquette modifiable) pour se protéger
+# d'une action compromise ; Dependabot propose les mises à jour.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Types, lint, tests et build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Installer Node.js (version de .nvmrc)
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Vérifier les types
+        run: npm run typecheck
+
+      - name: Lint et formatage (Biome)
+        run: npm run lint:ci
+
+      - name: Tests et couverture (Vitest)
+        run: npm run test:coverage
+
+      - name: Build de production (Next.js)
+        run: npm run build
+
+      - name: Publier le rapport de couverture
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: couverture
+          path: coverage/
+          retention-days: 7
+          if-no-files-found: ignore
